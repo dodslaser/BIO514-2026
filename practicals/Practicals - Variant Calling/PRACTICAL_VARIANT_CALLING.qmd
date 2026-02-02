@@ -1,0 +1,212 @@
+---
+title: "Variant Calling"
+author: "Silvana Lord Smits, Erik Demitz-Helin"
+format:
+  html:
+    theme: cosmo
+number-sections: true
+toc: true
+---
+
+## Introduction
+
+In this practical you will try to run a basic variant calling workflow to try and find and interpret variants in adapted yeast populations.
+
+### What is a variant?
+
+A variant is a fairly broad genomics term. In general, variants an be divided into...
+
+**Short variants:**
+
+- Single Nucleotide Variants (SNVs/SNPs)
+- Multi Nucleotide Variants (MNVs/MNPs)
+- Insertions and Deletions (Indels)
+
+**Large/Structural Variants:**
+
+- Tandem and interspaced duplications
+- Inversions
+- Translocations
+- Copy Number Variants
+
+But these terms are often not well-defined and definitions may overlap depending on who you ask.
+
+### Germline vs Somatic variant calling
+
+We often talk about variants being either germline or somatic. Germline variants are present in all cells in an induvudual (i.e. passed from parent to child), whereas somatic variants only occur de-novo in some cells in an individual (eg. in a tumor). Naturally, these terms make very little sense when talking about single-cellular organisms, especially when they divide by binary fission. An alternative way to think about it is that germline variant calling compares sequence data from a sample with a reference, whereas somatic variant calling compares sequence data from a sample to sequence data from another sample **AND** a reference.
+
+### The data we will use
+
+In this practical you will use data from a large-scale experimental evolution dataset where a yeast strain (YPS128) was exposed to several environmental stressors. We will use data from populations exposed to Arsenite and Rapamycin. The population are allowed to adapt for ~300 generations (50 cycles) by repeatedly re-pinning to fresh media when the populations reach stationary phase (~3 days). The fitness of each population can be traced over time using the Scan-o-Matic platform, where the growth-rate of each population can be tracked. The growth rate of a yeast population is a good indicator of the overall fitness.
+
+By sequencing both the founder and adapted populations, we can then look at differences in the sequences to find variants that influence adaptation to a given environment. This is where you come in. You have been provided with raw paired-end Illumina short-reads (`.fastq`, founder and adapted) and an annotated reference assembly of the YPS128 genome. Your task is to run a basic variant calling workflow to identify interestng variants in these populations.
+
+The data has been provided in two `.tar.gz` files in canvas.
+
+1. `yps128.reference.tar.gz` - All needed reference files (plus a few extras).
+1. `<SAMPLE>.reads.tar.gz`   - Raw reads for a given sample, both founder and adapted poplations.
+
+::: {.callout-note}
+Pick one sample to start with. When you finish you can go back and pick another one, preferably from a different environment.
+:::
+
+## Basic Workflow
+
+:::{.callout-important}
+The reads are paired-end and should be processed as such.
+:::
+
+:::{.callout-important}
+You should perform the QC, mapping, and post-processing steps both for the adapted **AND** the founder populations.
+:::
+
+:::{.callout-note}
+Make sure to name the intermediate  files in a way so that you can remember what you have done to them (e.g. `X_R1.trimmed.fq.gz`, `X_R2.trimmed.fq.gz`).
+:::
+
+###  Raw data QC and sanity check
+
+It is usually a good idea to take a look at the raw data before you start working on it, to notice and possbily fix any problems before you go ahead with an analysis.
+
+3. Run `fastqc` on the raw reads. Are there any problems? What is the adapter content like?
+3. Run `fastp` tpo trim adapter sequences and low-quality bases from the reads.
+3. Finally, run fastqc on the trimmed reads again. Can you notice a difference?
+
+::: {.callout-note}
+You can use [MultiQC](https://github.com/MultiQC/MultiQC) to combine several FastQC reports (and reports from other tools)
+:::
+
+### Mapping
+
+We will be using BWA-MEM2 for mapping. There are many other short-read mappers available, but BWA-MEM2 is by far the most commonly used.
+
+5. Use `bwa-mem2` to map your trimemd reads to the reference (`YPS128.genome.fa`). The output should be in the `.sam` format.
+
+::: {.callout-important}
+Make sure to add `-R "@RG\tID:AS_A2\tSM:AS_A2\tPL:ILLUMINA"` to your BWA-MEM2 arguments (Replace `AS_A2` with the id of your sample, appending `_founder` to the founder population). We will need these read groups for out downstream analysis.
+:::
+
+::: {.callout-note}
+The `YPS128.genome.fa` has been indexed for you, and all files should be included in the `.tar.gz` you were provided.
+:::
+
+### Mapping post-processing
+
+Before variant calling we need to do a few things to our mapped reads.
+
+5. Use `samblaster` to mark duplicates in the `.sam` files from `bwa-mem`.
+6. Use `samtools sort` to sort reads by coordinate.
+7. Use `samtools calmd` to calculate MD and apply BAQ
+   
+   
+
+9. Use `samtools index` to generate `.bai` indexes for the final `.bam` files.
+
+::: {.callout-note}
+Make sure the final output from samtools is compressed bam (`-Ob`) to keep file sizes down. If you are piping data from one samtools command to the next you should use uncompressed bam except for the last step.
+:::
+
+::: {.callout-tip}
+# Question
+Why is it important to mark duplicates when calling variants?
+:::
+
+::: {.callout-tip}
+# Question
+What does MD and BAQ mean?
+:::
+
+
+### Short variant calling
+
+For short variant calling we will use `freebayes` in pooled continous mode on both the founder and adapted populations at the same time. This will allow us to later identify true de-novo variants in the adapted population.
+
+9. Use `freebayes` with the final indexed `.bam` files from the post-processing step. Make sure to include both the founder and adapted populations.
+
+10. Use `bcftools index` to generate a `.tbi` index for your `.vcf.gz` file.
+
+::: {.callout-important}
+Make sure to pass both the adapted and founder `.bam` files as input to freebayes, as we will use both wen filtering.
+:::
+
+::: {.callout-note}
+An alternative approach could be to use GATK Mutect2, a somatic variant caller, with the founder as the "normal". You may need to tweak the settings quite a bit to get it to work well with our data. The default settings in Mutect2 are quite strict, and you may need to be a bit more lenient to find variants. This would aslo require a different filtering approach.
+:::
+
+::: {.callout-tip}
+# Question
+Why do we run freebayes in pooled continous mode?
+:::
+
+::: {.callout-tip}
+# Question
+Take a look at your output `.vcf.gz`. Can you see any interesting variants?
+:::
+
+### Variant annotation and filtering
+
+As you may have noticed, it's pretty difficult to draw any conclusions from your raw `.vcf.gz` generated above. To help you find interesting variants we will apply some basic filtering and generate a simplifed table of variants.
+
+11. Use `snpeff` to annotate your `.vcf.gz` using the provided `snpeff.config` and `yps128` genome. 
+
+12. Use `bcftools norm` to split multiallelic variants as they will interfere with downstream filtering.
+
+13. Use `bcftools +fill-tags` to add the `FORMAT/VAF` tag to your `.vcf.gz`.
+
+14. Use `bcftools index` to index the final `.vcf.gz`
+
+15. Use `snpsift extractFields` to generate a simplified `.tsv` from your final `.vcf.gz`. Include the chromosome, position, reference and alternate alleles, gene name, VAF in the founder and adapted populations, and coverage (depth) in the founder and adapted populations.
+
+::: {.callout-note}
+If you still have too many variants you can filter out downstream, intronic, and intergenic variants when annotating with `snpeff`.
+:::
+
+::: {.callout-tip}
+# Question
+What does VAF mean in a variant calling context?
+:::
+
+::: {.callout-tip}
+# Question
+Take a look at your final `.tsv`. Can you find any interesting variants?
+:::
+
+::: {.callout-tip}
+# Question
+Load your final `.vcf.gz` in IGV. You will need to load `YPS128.genome.fa` as a genome and add a track for `YPS128.all_feature.gtf`. Look at the variants you find interesting. Do they look ok?
+:::
+
+::: {.callout-tip}
+# Question
+Based on your understanding of the underlying biology, look at regions where you would expect to see variants. You can also load your unfiltered `.vcf.gz` to look for variants that were filtered out.
+:::
+
+::: {.callout-tip}
+# Question
+The `bcftools` commands' help pages mention `.bcf` (it is also in the name). What is this format? How does it differ from `.vcf.gz`?
+:::
+
+### Structural variant calling
+Sometimes, short variants do not tell the whole story. It can also be helpful to take a step back and looking at a larger scale. In this practical we will be looking for copy number variations.
+
+16. Use `cnvkit batch` to generate a whole-genome copy ratio profile of your adapted `.bam`, with your founder `.bam` as the normal.
+
+::: {.callout-note}
+Our data was generated using whole-genome-sequencing (WGS). Make sure cnvkit knows this.
+:::
+
+::: {.callout-tip}
+# Question
+Can you see any interesting variations in the whole-genome copy ratio profile? Do they make sense given your environment and your understanding of the underlying biology?
+:::
+
+## Report
+
+Write a short summary of what steps you took, answering the above questions to the best of your ability. Keep it breif, preferably less than one page.
+
+
+## Resources
+
+- [nf-core/sarek](https://nf-co.re/sarek) - Best practices NextFlow pipeline for germine and somatic variant calling
+- [GATK Best Practices](https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows) - Best practices variant calling workflows using GATK
+- [breseq](https://github.com/barricklab/breseq) - Pipeline for short variant discovery in haploid microbial samples

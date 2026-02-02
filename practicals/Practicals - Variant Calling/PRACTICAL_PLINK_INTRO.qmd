@@ -1,0 +1,11 @@
+---
+title: "PLINK Intro"
+author: "Silvana Lord Smits, Erik Demitz-Helin"
+format:
+  html:
+    theme: cosmo
+number-sections: true
+toc: true
+---
+
+🚧 **WORK IN PROGRESS** 🚧

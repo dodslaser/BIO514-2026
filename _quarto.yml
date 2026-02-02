@@ -1,0 +1,69 @@
+project:
+  type: website
+  output-dir: docs
+
+execute:
+  freeze: auto
+
+website:
+  title: "BIO514 Genomics - Practical Repository"
+  description: "Practical exercises for the BIO511 Genomics course practical sections"
+  navbar:
+    background: light
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      - sidebar:cli
+      - sidebar:vc
+      - sidebar:phylo
+      - sidebar:gwas
+
+  sidebar:
+    - id: cli
+      title: "Command Line Programming"
+      style: docked
+      background: light
+      contents:
+      - section: "Command Line Programming Repetition"
+        contents:
+        - href: "practicals/Practicals - CLI/PRACTICAL_COMMAND_LINE_REPETITION.qmd"
+          text: "Repetition: CLI Repetition"
+
+    - id: vc
+      title: "Variant Calling"
+      style: docked
+      background: light
+      contents:
+      - section: "Variant Calling"
+        contents:
+        - href: "practicals/Practicals - Variant Calling/PRACTICAL_VARIANT_CALLING.qmd"
+          text: "Practical 1: Variant Calling"
+        - href: "practicals/Practicals - Variant Calling/PRACTICAL_PLINK_INTRO.qmd"
+          text: "Practical 2: PLINK Introduction"
+
+    - id: phylo
+      title: "Phylogeny"
+      style: docked
+      background: light
+      contents:
+      - href: "practicals/Practicals - Phylogeny/PRACTICAL_PHYLOGENY.qmd"
+        text: "Practical 3: Phylogeny"
+
+    - id: gwas
+      title: "GWAS"
+      style: docked
+      background: light
+      contents:
+      - href: "practicals/Practicals - Phylogeny/PRACTICAL_GWAS.qmd"
+        text: "Practical 3: GWAS"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    link-external-newwindow: true
+    css: pages/styles.css

@@ -1,0 +1,44 @@
+---
+title: "BIO514 Evolutionary Genomics - Practical Repository"
+subtitle: "Welcome to the practical exercises for the BIO514 Evolutionary Genomics course"
+author: "Silvana Lord Smits, Erik Demitz-Helin"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    theme: cosmo
+    css: pages/styles.css
+---
+
+## Course Overview
+
+This repository contains practical exercises for the BIO514 Genomics course. Use this page, or the navbar to navigate to the different sections.
+
+### 🖥️ Command Line Programming Repetition
+Repetition exercise to practice using the UNIX CLI
+
+- **[Repetition: CLI Repetition](practicals/Practicals%20-%20CLI/PRACTICAL_COMMAND_LINE_REPETITION.qmd)**
+
+### 🧬 Variant Calling
+An overview of short-, and structural variant calling workflows, and an introduction to population genomics analyses using PLINK.
+
+- **[Practical 1: Variant Calling](practicals/Practicals%20-%20Variant%20Calling/PRACTICAL_VARIANT_CALLING.qmd)**
+- **[Practical 2: PLINK Introduction](practicals/Practicals%20-%20Variant%20Calling/PRACTICAL_PLINK_INTRO.qmd)**
+
+### 🌳 Phylogeny
+An introduction to phylogenetic analyses using sequence data in MEGA.
+
+- **[Practical 3: Phylogeny](practicals/Practicals%20-%20Phylogeny/PRACTICAL_PHYLOGENY.qmd)**
+
+### 📊 GWAS
+An introduction to Genome Wide Association Studies
+
+- **[Practical 4: GWAS](practicals/Practicals%20-%20GWAS/PRACTICAL_GWAS.qmd)**
+
+
+---
+
+*For questions or issues, please contact the course instructors.*

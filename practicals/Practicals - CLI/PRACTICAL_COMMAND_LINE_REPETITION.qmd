@@ -1,0 +1,248 @@
+---
+title: "Command Line Repetition"
+author: "Silvana Lord Smits, Erik Demitz-Helin"
+format:
+  html:
+    theme: cosmo
+number-sections: true
+toc: true
+---
+
+## Introduction
+Most of you are familiar with working in a CLI by now and have worked with similar tools
+to those mentioned here. The goal of this session is to revise some of the main points
+from previous labs. For more detailed instructions on how to perform some of the steps
+described here, you can refer to the BIO511 Practical Repository.
+
+To help refresh your memory, below is a list of common commands you might want to
+use during this tutorial. If you wish, you can fill this out to use as a cheat sheet during your
+labs.
+
+| Command | Arguments | Meaning |
+| ------- | --------- | ------- |
+| ssh     |           |         |
+| pwd     |           |         |
+| ls      | -l        |         |
+|         | -a        |         |
+| mkdir   |           |         |
+| cd      |           |         |
+|         | .         |         |
+|         | ..        |         |
+|         | ~         |         |
+| touch   |           |         |
+| echo    |           |         |
+| mv      |           |         |
+| cp      |           |         |
+| rm      |           |         |
+|         | -r        |         |
+|         | -i        |         |
+| cat     |           |         |
+| head    |           |         |
+| tail    |           |         |
+| grep    |           |         |
+|         | -v        |         |
+|         | -o        |         |
+| wc      |           |         |
+|         | -l        |         |
+| sed     |           |         |
+| nano    |           |         |
+| scp     |           |         |
+| module  | avail     |         |
+|         | load      |         |
+| chmod   |           |         |
+| sbtatch |           |         |
+| squeue  |           |         |
+| gunzip  |           |         |
+
+## Accessing and navigating c3se
+
+We will be using the c3se cluster Vera for these labs. If you do not have access yet, or you
+forgot how to log in, follow [the instructions provided in BIO511](https://n2bin-gu.github.io/BIO511-2025/practicals/Practicals%20-%20CLI/PRACTICAL_SETTING_UP_THE_HPC.html) to access the cluster.
+
+## Folders and files 
+In UNIX [everything is a file](https://en.wikipedia.org/wiki/Everything_is_a_file). Therefore, knwoing how to navigate files and directory structures is essential for knowing how to interact with a unix system using the CLI.
+
+Check what directory you are in upon accessing the cluster. This is your home directory
+and can always be accessed using ~. Check what folders and files are currently in there.
+
+1. Create a new directory for this course, and a subdirectory for this session. 
+2. Create a file in your directory for this session and append the sequence below.
+   ```default
+   >ACT1 YFL039C SGDID:S000001855, Chromosome VI:53260..54696
+   ATGGATTCTGGTATGTTCTAGCGCTTGCACCATCCCATTTAACTGTAAGAAGAATTGCAC
+   GGTCCCAATTGCTCGAGAGATTTCTCTTTTACCTTTTTTTACTATTTTTCACTCTCCCAT
+   AACCTCCTATATTGACTGATCTGTAATAACCACGATATTATTGGAATAAATAGGGGCTTG
+   AAATTTGGAAAAAAAAAAAAAACTGAAATATTTTCGTGATAAGTGATAGTGATATTCTTC
+   TTTTATTTGCTACTGTTACTAAGTCTCATGTACTAACATCGATTGCTTCATTCTTTTTGT
+   TGCTATATTATATGTTTAGAGGTTGCTGCTTTGGTTATTGATAACGGTTCTGGTATGTGT
+   AAAGCCGGTTTTGCCGGTGACGACGCTCCTCGTGCTGTCTTCCCATCTATCGTCGGTAGA
+   CCAAGACACCAAGGTATCATGGTCGGTATGGGTCAAAAAGACTCCTACGTTGGTGATGAA
+   GCTCAATCCAAGAGAGGTATCTTGACTTTACGTTACCCAATTGAACACGGTATTGTCACC
+   AACTGGGACGATATGGAAAAGATCTGGCATCATACCTTCTACAACGAATTGAGAGTTGCC
+   CCAGAAGAACACCCTGTTCTTTTGACTGAAGCTCCAATGAACCCTAAATCAAACAGAGAA
+   AAGATGACTCAAATTATGTTTGAAACTTTCAACGTTCCAGCCTTCTACGTTTCCATCCAA
+   GCCGTTTTGTCCTTGTACTCTTCCGGTAGAACTACTGGTATTGTTTTGGATTCCGGTGAT
+   GGTGTTACTCACGTCGTTCCAATTTACGCTGGTTTCTCTCTACCTCACGCCATTTTGAGA
+   ATCGATTTGGCCGGTAGAGATTTGACTGACTACTTGATGAAGATCTTGAGTGAACGTGGT
+   TACTCTTTCTCCACCACTGCTGAAAGAGAAATTGTCCGTGACATCAAGGAAAAACTATGT
+   TACGTCGCCTTGGACTTCGAACAAGAAATGCAAACCGCTGCTCAATCTTCTTCAATTGAA
+   AAATCCTACGAACTTCCAGATGGTCAAGTCATCACTATTGGTAACGAAAGATTCAGAGCC
+   CCAGAAGCTTTGTTCCATCCTTCTGTTTTGGGTTTGGAATCTGCCGGTATTGACCAAACT
+   ACTTACAACTCCATCATGAAGTGTGATGTCGATGTCCGTAAGGAATTATACGGTAACATC
+   GTTATGTCCGGTGGTACCACCATGTTCCCAGGTATTGCCGAAAGAATGCAAAAGGAAATC
+   ACCGCTTTGGCTCCATCTTCCATGAAGGTCAAGATCATTGCTCCTCCAGAAAGAAAGTAC
+   TCCGTCTGGATTGGTGGTTCTATCTTGGCTTCTTTGACTACCTTCCAACAAATGTGGATC
+   TCAAAACAAGAATACGACGAAAGTGGTCCATCTATCGTTCACCACAAGTGTTTCTAA
+   ```
+
+   ::: {.callout-note}
+   What type of file is this? What file ending should you use?
+   :::
+
+3. Check how many lines your file contains. Does this make sense? 
+4. If we want to look at the sequence we’ve just stored, but without the header, how can we do this?
+
+### Using grep
+A common property of DNA sequences that is often interesting is their GC content. Differences in GC content between species and genomic regions can provide insight into genome organisation and can influence both biological and technical properties of the DNA. Try calculating the GC content for your sequence.
+
+::: {.callout-tip}
+Remember your friend `|`.
+:::
+
+
+### BLAST
+The sequence you looked at above is from the gene ACT1, which is quite conserved in eukaryotes and encodes actin. This sequence was collected from the Saccharomyces Genome Database (SGD) and is an S. cerevisiae reference sequence. But let’s say that we want to look at this gene/protein in other organisms too.
+
+The ACT1 sequence of another species has already been saved for you in the directory for this course (collected from NCBI, which you will work with later). To get to this directory, use the following path: `/cephyr/NOBACKUP/groups/n2bin_gu/` from here, navigate to the BIO514 introduction folder. Copy the file `more_actin.fa` to your own workspace.
+
+To find out what species this sequence originates from, we can use BLAST (Basic Local Alignment Search Tool). This is a widely used program to compare nucleotide or protein sequences to a database of known sequences. By identifying regions of local similarity, homology, functional predictions of unknown sequences and of most likely organisms of origin can be determined. To use BLAST, we can see if it is already loaded by default in our environment. If this is not the case, check its availability on the server & load it into your own environment. Check that this has worked correctly. 
+
+::: {.callout-tip}
+Environment modules can be accessed using the `module` command.
+:::
+
+Once you have done this, it is time to run the tool. Your query is a nucleotide sequence, which you’ll want to compare to a remote nucleotide database. Think about which flags you will have to use, and where you wish to store the output. Look at your results. What species are you working with? Store this information in the header of the file.
+
+### NCBI
+Append the contents of `more_actin.fa` to your original sequence file. Once you’ve done this, you can delete `more_actin.fa`. Don’t forget that deleting files is a permanent action on the server. There will be no prompt to double-check you really want to delete anything, unless you modify this behaviour using flags.
+
+Next up, try adding more organisms’ ACT1 gene to your comparison. We can use  NCBI, or the US National Center for Biotechnology Information, to do this. This platform provides a variety of useful databases and resources for bioinformatics. Navigate to the ‘gene’ database on the NCBI website to look for this gene in a couple of other species. Once you have found some other DNA sequences you want to include, add them to your sequence file. Make sure the headers make sense! Do the same thing, but for protein sequences too. 
+
+
+### CLUSTAL
+Now that all your DNA sequences are in one file, you can use the multiple sequence aligner CLUSTAL to visualize which parts are the most conserved. There are different programs in the Clustal family (e.g. ClustalW and Clustal Omega, both available online too), using different algorithms but serving the same purpose. 
+
+Clustalo is not by default loaded in your environment and is also not among the available modules on the server. A third way to work with a tool on the cluster is using a container. A container is a packaged software environment that contains a program and everything it needs to run. Using containers helps avoid problems with missing dependencies and makes analyses more reproducible as well. A container has already been built for you and can be found under ‘images’ in the BIO514 folder.
+ 
+::: {.callout-tip}
+For this course we will use apptainer/singularity containers.
+:::
+
+### Submitting jobs to compute nodes
+So far, you’ve been working in your login node. This is a shared entry point used my many users at the same time. This has been perfectly fine, as it is intended for light, low-resource, interactive tasks. Running CLUSTAL will be a bigger job though. For jobs such as these, it is good practise to instead book compute cores. You request dedicated computing resources for your job. While your job is running, those cores are reserved for you, and you are free to run more demanding analyses without affecting other users. 
+
+To run jobs in this way, you should submit them to the scheduler, here SLURM. [C3se provides a manual to do this](https://www.c3se.chalmers.se/documentation/submitting_jobs/running_jobs/). Write a simple job script. Start with the shebang, followed by the project account information (not sure? Try running projinfo in the terminal). Specify the right partition. One CPU core, 10 minutes, will be enough. Then write your command to execute the clustalo script you have just created. 
+
+Before submitting your job, check to make sure both scripts have the right permissions. Then it is time to submit your job! Don’t forget you can check on its status too. 
+
+::: {.callout-note}
+# Report - Task 2
+Take a look at the output and compare between the nucleotide and amino acid alignments. Interpret the results. Do you observe conserved regions? How are they indicated? 
+:::
+
+### Sequencing data
+Aside from fasta, another very common bioinformatic filetype is fastq, containing quality information as well as sequence information. On the Canvas page for this course, under ‘labs’, ‘introduction’, you can find paired-end Illumina sequencing reads in fastq format. 
+
+Upload these files to your working directory. Unzip the files and check their contents. Does the format make sense to you? 
+
+Raw sequencing reads often contain low-quality bases, adapter sequences, or other technical artefacts that can interfere with downstream analyses. For this reason, reads are commonly pre-processed before mapping or assembly.
+
+`fastp` is an all-in-one tool that performs both quality control and filtering/trimming of sequencing reads in a single step. It is not available on the cluster, but you can build a container yourself! 
+
+We will do this using apptainer. Start by installing Apptainer on your Linux system (or WSL on Windows): 
+```sh
+sudo apt install apptainer
+```
+
+If this works, skip the rest of this section and move on to creating your definition file. If not, your system does not provide Apptainer through the package manager. In that case, it can be built from source:
+
+```sh
+git clone https://github.com/apptainer/apptainer.git
+cd apptainer
+git checkout v1.3.1
+./mconfig
+make -C builddir
+sudo make -C builddir install
+```
+
+Apptainer is written in Go, so if you do not have this yet, you might need to install it first:
+
+```sh
+wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.22.0.linux-amd64.tar.gz
+echo 'export PATH=/usr/local/go/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+You might also need uidmap if it is not yet installed:
+sudo apt install uidmap
+```
+
+Next, create a definition file to build your container. This file describes which base system to start from, what software to install and how the container should behave when run.
+
+1. Create a file which you can call fastp.def with the following contents:
+   ```default
+   Bootstrap: docker
+   From: mambaorg/micromamba:1.5.8
+
+   %post
+      micromamba install -y -n base \
+         -c conda-forge \
+         -c bioconda \
+         fastp && \
+      micromamba clean --all --yes
+
+   %environment
+      export PATH=/opt/conda/bin:$PATH
+
+   %runscript
+      exec fastp "$@"
+   ```
+
+2. Build the container
+   ```sh
+   apptainer build fastp.sif fastp.def
+   ```
+
+3. Once your container is built, copy it to the HPC! 
+   :::{.callout-tip}
+   When the container is executed, it behaves as if you are running fastp. So any arguments you pass to the container are forwarded to fastp – similarly to how you ran clustalo previously.
+   :::
+
+4. Run fastp on your samples. The default settings are fine, but feel free to make changes. How to run this tool is well described in this BIO511 tutorial. How much of your data was filtered out? 
+
+## Mapping to a reference genome
+For most analyses, your individual sequencing reads will have to be mapped/aligned to a reference genome next. A lot of different mapping tools exist. One of these, already available on the cluster, is called BWA (Burrows-Wheeler Aligner). Consisting of different algorithms, the one most suitable for your samples is called BWA-MEM. 
+
+Before running this tool, a reference genome is necessary. As the name of your samples implies, you will need a mouse reference. You can get this from ENSEMBL, another large resource providing various genomes and tools, using the following command: 
+
+```sh
+wget https://ftp.ensembl.org/pub/release-113/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.primary_assembly.fa.gz
+```
+
+### Indexing
+Many tools require indexing of large files like this one. In this case, it allows the aligner to more efficiently and quickly find where a read could map to our reference. Creating an index only has to be done once for any given file. Make sure not to run this task on your login node as it is more demanding.
+
+### Mapping
+Once you have created your index, it is time to try running BWA-MEM. The output of this tool is a .sam file though, which is plain-text and human-readable, but very large and inefficient to store/process. Usually these are not stored directly, but instead immediately converted to a .bam file, containing the same information in binary format – smaller and faster to read and write. We can use SAMtools, also available on the cluster as a module, to do this.  Pipe the output of bwa mem directly into samtools view, to convert it to a .bam file, and then pipe this to samtools again, to sort the file, which would be required by most downstream tools, allowing easier access to specific genomic regions.
+
+### Interpretation
+Now we can check the success of our alignment using flagstat, and stats, both also a part of samtools. We can use samtools view to take a look at the header of the SAM file as well. In the top of the file, all lines start with ‘@’. This is part of the header. The second part contains detailed information about your mapping. Do you understand the different columns?
+
+There are many other tools available to perform mapping. Find a second tool, either available on the cluster or from elsewhere, and compare the results. 
+
+:::{.callout-note}
+# Report - Task 2
+Take a look at the output of both your mapping tools and compare. How well did they perform? Which one do you prefer? Why?
+:::
+
+## Report
+Write a short report answering the questions in both tasks. You can include screenshots of your screen if you would like. This does not have to be long, half an A4 page should suffice!
