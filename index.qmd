@@ -26,7 +26,7 @@ Repetition exercise to practice using the UNIX CLI
 An overview of short-, and structural variant calling workflows, and an introduction to population genomics analyses using PLINK.
 
 - **[Practical 1: Variant Calling](practicals/Practicals%20-%20Variant%20Calling/PRACTICAL_VARIANT_CALLING.qmd)**
-- **[Practical 2: PLINK Introduction](practicals/Practicals%20-%20Variant%20Calling/PRACTICAL_PLINK_INTRO.qmd)**
+- **[Practical 2: PLINK and MEGA Introduction](practicals/Practicals%20-%20Variant%20Calling/PRACTICAL_PLINK_MEGA_INTRO.qmd)**
 
 ### 🌳 Phylogeny
 An introduction to phylogenetic analyses using sequence data in MEGA.

@@ -1,0 +1,223 @@
+---
+title: "PLINK and MEGA introduction"
+author: "Silvana Lord Smits, Erik Demitz-Helin"
+format:
+  html:
+    theme: cosmo
+number-sections: true
+toc: true
+---
+
+# MEGA
+
+You will be using MEGA, Molecular Evolutionary Genetics Analysis during the phylogeny labs of this course. This software package is used to analyse molecular sequence data in an evolutionary context. Where PLINK works with genotypes and populations, MEGA focuses on DNA or protein sequences, determining evolutionary distances and phylogenetic relationships.
+
+Different from the tools we’ve used so far, this one you will work with on your own laptop, not on the cluster. Install MEGA from their website, where it is available for Windows, Mac and Unix devices. Go for the GUI and pick the latest version. Check that the installation has worked. If you wish, you can try uploading your fasta file from the introduction lab with all your sequences, and aligning the data using MEGA. Note that you can perform the alignment using different algorithms. We will explore this more during the phylogeny labs!
+
+# PLINK
+The goal of this session is to familiarize yourself with the software tool PLINK and its specific file formats, which you will use during your GWAS lab down the line. PLINK is a widely used tool for working with genotype data, primarily SNPs and sometimes small indels, across many individuals. It is a popular choice in population genetics, genetic epidemiology, and of course GWAS.
+
+## Installation
+PLINK 2.0 is the newest version and is intended to be used for very large datasets or imputed genotype dosages but is still in development. We are using PLINK 1.9 here because it is more stable, and better suited for learning the core concepts. A container has been built for you already!
+
+## Input files
+PLINK uses its own file formats for efficient analysis, but can import genotype data from other formats, such as `.vcf` and `.txt`, and convert them to PLINK’s internal representation. Try converting your resulting `.vcf` file from your variant calling labs to the PLINK bfile format using `--make-bed`.
+
+Sadly, own `.vcf` is missing a bunch of metadata for population analysis :c. We have provided you with another dataset to use throughout the labs.
+
+You’ll be working with data from the [ADAPTmap project](https://www.goatadaptmap.eu/), an initiative to coordinate genotyping, re-sequencing and phenotyping of goat breeds across the globe. To date, two studies have been published using this dataset. [1, 2]
+
+### `.bed` `.bim` and `.fam`
+Take a look at the ADAPT map data provided to you on PDC. They are presented to you in the standard bfile format already: `.bed`, `.bim` and `.fam`. Inspect the `.bim` and `.fam` file first. They contain your metadata.
+
+::: {.callout-tip}
+# Question
+What information is stored in each of these?
+:::
+
+::: {.callout-tip}
+# Question
+Do you think any information from the original `.vcf` file is lost?
+:::
+
+Do not try opening the `.bed` file – it is binary, not text. It will just show unreadable characters and might even mess up your terminal. This file contains the bulk of your data, consisting of compressed genotypes.
+
+To still inspect what’s stored inside, there are PLINK tools available to summarize its contents. Using the `--freq` flag can tell us about allele frequencies and --missing shows missingness per sample and variant.
+
+::: {.callout-tip}
+# Question
+Inspect the output. What do they tell us about the data?
+:::
+
+::: {.callout-tip}
+# Question
+How many SNPs, individuals and chromosomes do you have?
+:::
+
+::: {.callout-tip}
+# Question
+Where can we see how much data, per sample and variant, is missing?
+:::
+
+### `.ped` and `.map`
+In PLINK 1.0, .ped and .map files were used instead. Before GWAS, human genetics were dominated by pedigree analysis. The .ped format is a remnant of this. As datasets grew, files became too large and PLINK introduced its new filetypes. Due to their larger size, they are not used for analysis nowadays, but as they are text files they can be used to inspect or exports small subsets of the data.
+
+Convert a small fraction of your data to this old format using `--recode`. Plink has a flag that allows you to randomly keep only a fraction of your variants and discard the rest. Use this in your command too to only keep 0.1% of your variants.
+
+::: {.callout-tip}
+# Question
+What does each row and column in the resulting `.ped` file mean?
+:::
+
+::: {.callout-tip}
+# Question
+What about the `.map` file? Where do you find the genotype information in the `.ped` file of a given variant in the `.map` file?
+:::
+
+## Filtering
+We will continue working with the .bed, .bim and .fam files now. For downstream analyses, PLINK has some built-in filtering tools.
+
+Start off by filtering individuals that are missing more than 10% of genotypes. Next, filter variants that are missing in more than 5% of the samples. We can also filter variants that have a minor allele frequency below 5%.
+
+::: {.callout-note}
+Write your filtered dataset back out in binary format after each step.
+:::
+
+::: {.callout-tip}
+# Question
+Why do we filter individuals before filtering SNPs? And why do we filter at all?
+:::
+
+PLINK also has an option to filter out variants that are in Hardy Weinberg equilibrium (HWE). For PCA (and especially GWAS down the line) this can avoid skewing results heavily. Set this filter to 1e-6.
+
+::: {.callout-tip}
+# Question
+How could these variants affect results, and why do we not want them to?
+:::
+
+::: {.callout-tip}
+# Question
+Compare the amount of lines between the original and new .bim and .fam files. What changed and what stayed the same? What does this mean?
+:::
+
+## PCA
+Now that we have filtered our dataset to reduce technical noise, we can perform a PCA of our dataset in PLINK. Do this, and return the first 5 principal components.
+
+::: {.callout-tip}
+# Question
+Inspect the results. What do they tell you?
+:::
+
+Now that we’ve done this, we can use R to plot our results. The first paper [1] helpfully provides some tables, categorizing different goat populations. These tables, and a simple R script to plot your data, has been provided to you on Canvas. Run through the script, making changes as you wish.
+
+```r
+# ===================================
+# ===== PCA goat data (/^.^)/ =======
+# ===================================
+
+# Getting your workspace set up
+#===============================
+
+# Installing packages if needed
+#------------------------------
+#intall.packages("ggplot2")
+#install.packages("plotly")
+#install.packages("dplyr")
+
+# Loading necessary packages
+#---------------------------
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+# Set your working directory to your folder with all files for this session
+#--------------------------------------------------------------------------
+setwd("C:/Path/to/your/directory/")
+
+# Loading input files
+#--------------------
+
+# Coat color
+coat <- read.csv("color_goats.csv", sep = ";")
+# Breeding industry
+purpose <- read.csv("purpose_goats.csv", sep = ";")
+# Geographical climate
+climate <- read.csv("climate_goats.csv", sep = ";")
+# Geographical region
+region <- read.csv("region_goats.csv", sep = ";")
+
+# PCA results¨
+eigenvec <- read.delim("goats_pca.eigenvec", sep = " ")
+# eigenval <- read.delim("goats_pca.eigenval")
+
+# Renaming and joining data
+#===========================
+
+eigenvec <- read.table(
+  "goats_pca.eigenvec",
+  header = FALSE
+)
+
+colnames(eigenvec) <- c(
+  "FID", "IID",
+  paste0("PC", 1:(ncol(eigenvec) - 2))
+)
+
+join_meta <- function(df, meta) {
+  df %>%
+    left_join(
+      meta,
+      by = c("FID" = "Breed.code"),
+      suffix = c("", ".meta")
+    ) %>%
+    select(-ends_with(".meta"))
+}
+
+pca_all <- eigenvec %>%
+  join_meta(climate) %>%
+  join_meta(purpose) %>%
+  join_meta(coat) %>%
+  join_meta(region)
+  
+# Plotting 
+#===========
+
+# Plotting a simple 2D PCA
+#--------------------------
+ggplot(
+  pca_all,
+  aes(x = PC1, y = PC2, color = `Köppen.group`)
+) +
+  geom_point(size = 1, alpha = 0.7) +
+  labs(
+    x = "PC1",
+    y = "PC2",
+    color = "Köppen climate",
+    title = "PCA of goat genotypes colored by climate"
+  ) +
+  theme_minimal()
+
+# Plotting a 3D PCA
+#-------------------
+plot_ly(
+  pca_all,
+  x = ~PC1,
+  y = ~PC2,
+  z = ~PC3,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(size = 2),
+  color = ~Köppen.group
+)
+```
+
+::: {.callout-tip}
+# Question
+How do the populations cluster?
+:::
+
+# Links
+
+[1] https://link.springer.com/article/10.1186/s12711-018-0421-y
+
+[2] https://link.springer.com/article/10.1186/s12711-018-0422-x
