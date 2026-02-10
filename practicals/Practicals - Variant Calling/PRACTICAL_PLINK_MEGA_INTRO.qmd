@@ -9,10 +9,9 @@ toc: true
 ---
 
 # MEGA
-
 You will be using MEGA, Molecular Evolutionary Genetics Analysis during the phylogeny labs of this course. This software package is used to analyse molecular sequence data in an evolutionary context. Where PLINK works with genotypes and populations, MEGA focuses on DNA or protein sequences, determining evolutionary distances and phylogenetic relationships.
 
-Different from the tools we’ve used so far, this one you will work with on your own laptop, not on the cluster. Install MEGA from their website, where it is available for Windows, Mac and Unix devices. Go for the GUI and pick the latest version. Check that the installation has worked. If you wish, you can try uploading your fasta file from the introduction lab with all your sequences, and aligning the data using MEGA. Note that you can perform the alignment using different algorithms. We will explore this more during the phylogeny labs!
+Different from the tools we’ve used so far, this one you will work with on your own laptop, not on the cluster. Install MEGA from [their website](https://megasoftware.net/), where it is available for Windows, Mac and Unix devices. Go for the GUI and pick the latest version. Check that the installation has worked. If you wish, you can try uploading your fasta file from the introduction lab with all your sequences, and aligning the data using MEGA. Note that you can perform the alignment using different algorithms. We will explore this more during the phylogeny labs!
 
 # PLINK
 The goal of this session is to familiarize yourself with the software tool PLINK and its specific file formats, which you will use during your GWAS lab down the line. PLINK is a widely used tool for working with genotype data, primarily SNPs and sometimes small indels, across many individuals. It is a popular choice in population genetics, genetic epidemiology, and of course GWAS.
