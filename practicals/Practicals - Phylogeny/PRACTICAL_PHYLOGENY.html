@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a40162867d9b46e4bc73d064fae4bd5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ed06b1a8fbb9871e551c89be113db626.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -179,8 +179,33 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#report" id="toc-report" class="nav-link active" data-scroll-target="#report"><span class="header-section-number">0.1</span> Report</a></li>
+  <li><a href="#part-1---barnacles" id="toc-part-1---barnacles" class="nav-link" data-scroll-target="#part-1---barnacles"><span class="header-section-number">1</span> Part 1 - Barnacles</a>
+  <ul class="collapse">
+  <li><a href="#drawing-a-tree" id="toc-drawing-a-tree" class="nav-link" data-scroll-target="#drawing-a-tree"><span class="header-section-number">1.1</span> Drawing a tree</a></li>
+  <li><a href="#modifying-a-tree" id="toc-modifying-a-tree" class="nav-link" data-scroll-target="#modifying-a-tree"><span class="header-section-number">1.2</span> Modifying a tree</a></li>
+  <li><a href="#phylogenetic-analysis" id="toc-phylogenetic-analysis" class="nav-link" data-scroll-target="#phylogenetic-analysis"><span class="header-section-number">1.3</span> Phylogenetic analysis</a>
+  <ul class="collapse">
+  <li><a href="#multiple-sequence-alignment" id="toc-multiple-sequence-alignment" class="nav-link" data-scroll-target="#multiple-sequence-alignment"><span class="header-section-number">1.3.1</span> Multiple sequence alignment</a></li>
+  <li><a href="#substitution-model-testing" id="toc-substitution-model-testing" class="nav-link" data-scroll-target="#substitution-model-testing"><span class="header-section-number">1.3.2</span> Substitution model testing</a></li>
+  <li><a href="#molecular-clock-testing" id="toc-molecular-clock-testing" class="nav-link" data-scroll-target="#molecular-clock-testing"><span class="header-section-number">1.3.3</span> Molecular clock testing</a></li>
+  <li><a href="#tree-building" id="toc-tree-building" class="nav-link" data-scroll-target="#tree-building"><span class="header-section-number">1.3.4</span> Tree building</a></li>
+  <li><a href="#visualization-and-interpreting-results" id="toc-visualization-and-interpreting-results" class="nav-link" data-scroll-target="#visualization-and-interpreting-results"><span class="header-section-number">1.3.5</span> Visualization and interpreting results</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#part-2---srp9" id="toc-part-2---srp9" class="nav-link" data-scroll-target="#part-2---srp9"><span class="header-section-number">2</span> Part 2 - SRP9</a>
+  <ul class="collapse">
+  <li><a href="#building-an-initial-tree" id="toc-building-an-initial-tree" class="nav-link" data-scroll-target="#building-an-initial-tree"><span class="header-section-number">2.1</span> Building an initial tree</a></li>
+  <li><a href="#collecting-more-orthologs" id="toc-collecting-more-orthologs" class="nav-link" data-scroll-target="#collecting-more-orthologs"><span class="header-section-number">2.2</span> Collecting more orthologs</a></li>
+  <li><a href="#species-tree" id="toc-species-tree" class="nav-link" data-scroll-target="#species-tree"><span class="header-section-number">2.3</span> Species tree</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -210,9 +235,239 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>🚧 <strong>WORK IN PROGRESS</strong> 🚧</p>
+<p>By now you should have downloaded and installed MEGA according to the instructions in <a href="practicals/Practicals - Variant Calling/PRACTICAL_PLINK_MEGA_INTRO.qmd">Practical 2: PLINK and MEGA Introduction</a>. You should also have had your lectures on phylogeny. The goal of these labs is to use MEGA, and some other resources, to learn how to carry out phylogenetic analyses in practice. The following instructions are based on a previous tutorial created by Magnus Alm Rosenblad for this course.</p>
+<section id="report" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="report"><span class="header-section-number">0.1</span> Report</h2>
+<p>The lab is split up into two parts, but you will hand in one lab report. You will hand in a report that includes a title and your name, and is written as a full text. The report should give a brief introduction to the different datasets you are working with. You should also explain the different steps you performed, in such a way that someone who has not performed the same analysis can understand what you did. Include pictures of your trees in appendices with a figure legend. Mark relevant parts so it is easy for your reader to follow along. Make sure to provide answers to all questions in the instructions.</p>
+</section>
+<section id="part-1---barnacles" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Part 1 - Barnacles</h1>
+<p>In this part, you will learn how to carry out the different steps involved in a phylogenetic analysis. For your report, you will describe what data you have been working with, and what you have done. In your report you should display and evaluate your trees, in context of their robustness and evolution for this gene family.</p>
+<p>You will be working with sequencing data from different barnacle species. Before this analysis, only the <em>A. amphitrite</em> WSP (<code>Ba_WSP</code>) protein sequence was available in public databases, but there were indications that there might be WSP paralogs in that species. The true number of this protein family is not known, so there is no clear answer to how they are related.</p>
+<section id="drawing-a-tree" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="drawing-a-tree"><span class="header-section-number">1.1</span> Drawing a tree</h2>
+<p>To familiarize you with phylogenetic trees themselves, you will start by visualizing the tree shown to you in the introduction slides for the lab. This one is found in the file <code>phylo_tree.newick</code>. This is a new file format. You can open it with any text viewer to take a look at it. Newick files contain (phylogenetic) tree structures through the use of nested parentheses and commas. Leaves and nodes are defined by names, optionally with branch lengths, in a single line of text.</p>
+<p>Now load this tree file into MEGA.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some names and a few values might be a bit different from the one on the slides.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compare what you see to the text contents of <code>phylo_tree.newick</code>. Do you understand the format? How are the values for branch length and support written?</p>
+</div>
+</div>
+</section>
+<section id="modifying-a-tree" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="modifying-a-tree"><span class="header-section-number">1.2</span> Modifying a tree</h2>
+<p>In the control panel, you can select a lot of different options. For instance, you can change the display of the tree in circular, rectangular and unrooted fashion. Try them out. You can also choose an outgroup and re-root the tree. To do this, you need to mark the branch you want to use as an outgroup. You can choose to add or leave out branch lengths, and change the display of your branches and labels. You can display the support values as well, and change how this is displayed. Clicking on specific branches (subtree), tips or nodes allows you to change their color, highlight blocks, etc.</p>
+<ol type="1">
+<li>Root your tree using the cupin branch. This should make the tree look more like the one from the slides.</li>
+<li>Further rotate branches so it resembles the one from the slides even more. Don’t forget to include your support values.</li>
+<li>Color the branches for which the clades have both <em>A. improvisus</em> (<code>Bi</code>) and <em>A. amphitrite</em> (<code>Ba</code>) species.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Historically, both these species were part of the <em>Balanus</em> genus (hence the <code>B</code> prefix), but have since been re-calssified as part of the <em>Amphibalanus</em> genus.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How many of the genes seem to have been present in the ancestor of <em>A. improvisus</em> and <em>A. amphitrite</em>?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Can you identify duplication events?</p>
+</div>
+</div>
+</section>
+<section id="phylogenetic-analysis" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="phylogenetic-analysis"><span class="header-section-number">1.3</span> Phylogenetic analysis</h2>
+<p>You will now perform a phylogenic analysis yourself, with additional sequences. These analyses start by collecting sequences. These are usually kept in FASTA format, which you should be very familiar with by now. The set of sequences used to create the tree you used above is found in “phylo_sequences.faa’. Some more sequences were found that were not included in the analysis. These are in the file ‘phylo-2_moreseqs.faa’.</p>
+<p>Using this new dataset, you will now perform two analyses so you can compare them, and answer the questions below. You can choose which methods you want to you, or if you want to run the same method with different settings.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>FASTA files (<code>.fasta</code>/<code>.fa</code>/<code>.faa</code>) files are just text files with a different extension, meaning you can change them before using them for an alignment, and open them in any basic text editor. So if you wish, you can change the identifier to make it more intuitive to you what type of sequence, and from which species, it is. Programs handle these identifiers in different ways. Some tools, like ClustalO, only keep the text until the first space in the header. So if you want to ensure specific information is kept, make sure that it is present in the beginning.</p>
+</div>
+</div>
+<section id="multiple-sequence-alignment" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="multiple-sequence-alignment"><span class="header-section-number">1.3.1</span> Multiple sequence alignment</h3>
+<p>Your analysis will begin by performing an alignment. You can do this in different ways. Most algorithms (MAFFT, MUSCLE and CLUSTALO, etc.) are avaiable as command line tools which you can run from the terminal. You can also use web based interfaces for these can also be found online, but because these run on shared servers they are often much slower than running on your own hardware. Lastly, MEGA itself can perform alignments using several different algorithms as well, providing a graphical interface while still running on your own computer.</p>
+<p>Either perform your alignment directly in MEGA here or upload your alignment results to MEGA afterwards.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take a look at your alignment in MEGA. Do you see more/less conserved regions already? How are they indicated?</p>
+</div>
+</div>
+</section>
+<section id="substitution-model-testing" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="substitution-model-testing"><span class="header-section-number">1.3.2</span> Substitution model testing</h3>
+<p>When using any tree-building algorithm, you will have the option to select which nt/aa substitution model to use. It can be difficult to pick a model, and which model will work best depends on your data. Luckily, MEGA provides a way to simplify model selection by benchmarking the relative performance of each model. Perform a model test to decide which one to use for your data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which nt/aa substitution model suits your data best? Focus on the BIC scores, but other results might also be interesting.</p>
+</div>
+</div>
+</section>
+<section id="molecular-clock-testing" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="molecular-clock-testing"><span class="header-section-number">1.3.3</span> Molecular clock testing</h3>
+<p>MEGA has another nice feature we can use to answer the question ‘Does forcing all branches to evolve at the same rate significantly reduce how well the model explains the data?’. As you might remember from your lectures, some algorithms assume a constant evolutionary rate across all lineages, other have the option to use a (relaxed) clock, and other do not use it at all. It is one of many possible model constraints. Using the clock testing option in MEGA, we can be test the molecular clock assumption against our data using a likelihood ratio test. Try this out for your data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What were the results of the test? What does that tell you?</p>
+</div>
+</div>
+</section>
+<section id="tree-building" class="level3" data-number="1.3.4">
+<h3 data-number="1.3.4" class="anchored" data-anchor-id="tree-building"><span class="header-section-number">1.3.4</span> Tree building</h3>
+<p>Next, you can build your actual tree. In MEGA, this is another convenient button on the startup screen. You can choose between a variety of methods, which you should remember from your phylogeny lectures. You can also play around with the settings for a specific method.</p>
+</section>
+<section id="visualization-and-interpreting-results" class="level3" data-number="1.3.5">
+<h3 data-number="1.3.5" class="anchored" data-anchor-id="visualization-and-interpreting-results"><span class="header-section-number">1.3.5</span> Visualization and interpreting results</h3>
+<p>Once you have finished both of your phylogenic analyses (using different substitution models, MSA or tree-building algorithms), use MEGA to look at the results.</p>
+<ul>
+<li>When rooting the tree, you don’t know where the new sequences ( cad-B-D) will end up. Is it then better to root the tree using all three ‘cup’ sequences, or only the ‘cup_Dp’, which is from a different phylogenetic group than Bi and Ba?</li>
+<li>Explain in which clades the new sequences end up. Are new clades produced, or are the cand-B-D just added to the clades that you found before? Include clear visualizations of your results in your report. Extra (if you have time)</li>
+</ul>
+<p>You can also try using an alignment of only the core region (‘phylo_moreseqs_core.fst’). All trees that you have made will be slightly different, and it may be hard to arrive at a conclusion about the evolution of these species, since we do not have a full genome for either <em>A. improvisus</em> or <em>A. amphitrite</em>. If you really want to spend time on this, you can go hunting for orhologs in other species, using NCBI BLASTP (limit your search to the <em>Balanidae</em> family if the results are overwhelming)</p>
+</section>
+</section>
+</section>
+<section id="part-2---srp9" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 2 - SRP9</h1>
+<p>Now that you know how to carry out all the steps involved in a phylogenic analysis, you will perform a phylogenic analysis on the SRP9 protein. You will collect sequences, perform alignments and realignments to check your progress, and finish with performing two phylogenetic analyses (using two different methods for at least one analysis). Don’t forget to check which substitution model best suits your data, and molecular clock testing.</p>
+<p>Keep a table of all your included sequences to keep track of them. Include columns with their name, accession number, and the description for the original plus taxonomic group. That way you keep an overview of what you are doing. Include this table in the report.</p>
+<section id="building-an-initial-tree" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="building-an-initial-tree"><span class="header-section-number">2.1</span> Building an initial tree</h2>
+<p>In this part you will be working with sequencing data from a conserved gene’s protein, SRP9, from different groups of animals (Metazoa). You are already provided with a couple of sequences in the file ‘lab2_sequences.faa’ to get you started. Look for NCBI Refseq sequences for SRP9 from different <em>Metazoa</em> species. You can search the NCBI protein database by using a query like <code>human[ORGN] SRP9</code> or <code>mouse[ORGN] SRP9</code>. You can append <code>refseq[filter]</code> to limit the search to only include refseq accessions.</p>
+<p>In case you cannot find a Refseq protein for a species you would like to add, you can search the RNA databases (EST or TSA) using TBLASTN and predict the protein sequence. Just make sure the sequences have a match for the <a href="https://www.ebi.ac.uk/interpro/entry/pfam/PF05486/">SRP9-21 domain</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When collecting sequences, remember you might want to change the identifier to keep track of the sequences you have. You might also want to add something to see which phylogenetic group they below to (e.g.&nbsp;<code>MV</code> for metazoan vertebrate).</p>
+</div>
+</div>
+<p>After collecting at least human, mouse, chicken, zebrafish, make a global alignment. Inspect your alignment to see if it looks okay.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the sequences you are provided with, there are two human isoforms. Based on the alignment, which isoform do you think you should keep?</p>
+</div>
+</div>
+<p>Make a new alignment after removing one of the human SRP9 isoforms, and see how many positions seem to contain a signal (not 100% conserved). In Clustal, positions with “*” under them have identical amino acids. As you add sequences, less and less positions will remain conserved. You can filter your initial alignment and check how much is left for the analysis.</p>
+</section>
+<section id="collecting-more-orthologs" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="collecting-more-orthologs"><span class="header-section-number">2.2</span> Collecting more orthologs</h2>
+<p>Continue by adding a few more vertebrates (eg. <em>P. troglodytes</em>, <em>B. bombina</em>) and then the chordates (eg. <em>C. intestinalis</em>, <em>B. lanceolatum</em>). Inspect your alignment again. Add an echinoderm (eg. <em>S. purpuratus</em>, <em>F. indica</em>), and make a new tree. Keep adding species from different metazoan groups, (<em>Cnidaria</em>, <em>Placozoa</em>, <em>Arthropoda</em>, <em>Mollusca</em>, <em>Annelida</em>, …). Finally, add the slime mold <em>D. mucoroides</em> as an outgroup.</p>
+</section>
+<section id="species-tree" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="species-tree"><span class="header-section-number">2.3</span> Species tree</h2>
+<p>The full lineage of the species you include in your analysis can be easily looked at using the NCBI taxonomy browser. Species trees can be built using NCBI’s Common Taxonomy Tree tool. Write the name of each of your species, and press ‘add’. Once you have included them all, save your results as a phylip tree, which can be opened in MEGA. This tree should also be included in the report.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compare the species tree to your final SRP9 sequence tree. Does it look similar? What are the differences?</p>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
